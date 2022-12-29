@@ -94,10 +94,13 @@ export async function loadEnv(config: Config) {
 
 function parseConfig(config: Config): ParsedConfig {
   return {
-    folder: config.folder,
-    include: config.include || null,
-    exclude: config.exclude || null,
-    strict: config.strict || false,
+    folder: config.folder || process.env['JSONENVLOADER_CONFIG_FOLDER'],
+    include:
+      config.include || process.env['JSONENVLOADER_CONFIG_INCLUDE'] || null,
+    exclude:
+      config.exclude || process.env['JSONENVLOADER_CONFIG_EXCLUDE'] || null,
+    strict:
+      config.strict || process.env['JSONENVLOADER_CONFIG_STRICT'] || false,
   };
 }
 

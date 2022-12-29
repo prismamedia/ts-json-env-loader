@@ -68,21 +68,15 @@ loadEnvSync({
 You can use the `--require` (`-r`) [command line option](https://nodejs.org/api/cli.html#-r---require-module) to preload json-env-loader. By doing this, you do not need to require and load dotenv in your application code.
 
 ```bash
-$ node -r dotenv/config your_script.js
+$ node -r @prismamedia/ts-json-env-loader/loadEnvSync your_script.js
 ```
 
-The configuration options below are supported as command line arguments in the format `dotenv_config_<option>=value`
+You can use environment variables to set configuration options. Configuration from code will precede these.
 
 ```bash
-$ node -r dotenv/config your_script.js dotenv_config_path=/custom/path/to/.env dotenv_config_debug=true
-```
-
-Additionally, you can use environment variables to set configuration options. Command line arguments will precede these.
-
-```bash
-$ DOTENV_CONFIG_<OPTION>=value node -r dotenv/config your_script.js
+$ JSONENVLOADER_CONFIG_<OPTION>=value node -r @prismamedia/ts-json-env-loader/loadEnvSync your_script.js
 ```
 
 ```bash
-$ DOTENV_CONFIG_ENCODING=latin1 DOTENV_CONFIG_DEBUG=true node -r dotenv/config your_script.js dotenv_config_path=/custom/path/to/.env
+$ JSONENVLOADER_CONFIG_FOLDER="/path/to/folder" node -r dotenv/config your_script.js dotenv_config_path=/custom/path/to/.env
 ```
