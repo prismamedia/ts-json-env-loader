@@ -1,7 +1,7 @@
 #Json env loader
 Small module that loads data from json files (like vault secrets) into [`process.env`](https://nodejs.org/docs/latest/api/process.html#process_process_env). 
 
-Inspired by [`dotenv`]https://raw.githubusercontent.com/motdotla/dotenv
+Inspired by [`dotenv`](https://raw.githubusercontent.com/motdotla/dotenv)
 
 ## Install
 
