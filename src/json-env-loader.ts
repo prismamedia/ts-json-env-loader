@@ -35,8 +35,7 @@ export function loadEnvSync(config: Config) {
       let json = {};
 
       try {
-        const parsedFile = JSON.parse(fs.readFileSync(fullFilePath).toString());
-
+        const parsedFile = JSON.parse(fs.readFileSync(fullFilePath, 'utf8'));
         if (parsedFile && typeof parsedFile === 'object') {
           json = parsedFile;
         } else if (strict) {
@@ -64,19 +63,16 @@ export async function loadEnv(config: Config) {
     files.map(async (filePath: string) => {
       const fileBaseName = path.basename(filePath);
       const fullFilePath = `${folder}/${filePath}`;
-
       if (
         (!include || include.test(fileBaseName)) &&
         !(exclude && exclude.test(fileBaseName))
       ) {
         let json = {};
-
         try {
           const parsedFile = JSON.parse(
-            await fs.promises.readFile(fullFilePath).toString(),
+            await fs.promises.readFile(fullFilePath, 'utf8'),
           );
-
-          if (parsedFile && typeof parsedFile === 'object') {
+          if (parsedFile) {
             json = parsedFile;
           } else if (strict) {
             throw new Error(`file ${fullFilePath} does not contain valid json`);
@@ -103,12 +99,14 @@ function parseConfig(config: Config): ParsedConfig {
     folder,
     include:
       config.include ||
-      new RegExp(process.env['JSONENVLOADER_CONFIG_INCLUDE'] as string) ||
-      null,
+      (process.env['JSONENVLOADER_CONFIG_INCLUDE']
+        ? new RegExp(process.env['JSONENVLOADER_CONFIG_INCLUDE'] as string)
+        : null),
     exclude:
       config.exclude ||
-      new RegExp(process.env['JSONENVLOADER_CONFIG_EXCLUDE'] as string) ||
-      null,
+      (process.env['JSONENVLOADER_CONFIG_EXCLUDE']
+        ? new RegExp(process.env['JSONENVLOADER_CONFIG_EXCLUDE'] as string)
+        : null),
     strict:
       config.strict || Boolean(process.env['JSONENVLOADER_CONFIG_STRICT']),
   };
