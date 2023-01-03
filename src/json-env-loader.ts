@@ -19,8 +19,8 @@ type ParsedConfig = {
 
 export function loadEnvSync(config: Config) {
   const { folder, include, exclude, strict } = parseConfig(config);
-  if (!fs.statSync(folder).isfolder) {
-    throw new Error('a path to a folder must be configured');
+  if (!fs.statSync(folder).isDirectory) {
+    throw new Error('a path to an existing folder must be configured');
   }
 
   const files = fs.readdirSync(folder);
@@ -55,8 +55,8 @@ export function loadEnvSync(config: Config) {
 
 export async function loadEnv(config: Config) {
   const { folder, include, exclude, strict } = parseConfig(config);
-  if (!(await fs.promises.stat(folder)).isfolder) {
-    throw new Error('a path to a folder must be configured');
+  if (!(await fs.promises.stat(folder)).isDirectory) {
+    throw new Error('a path to an existing folder must be configured');
   }
 
   const files = await fs.promises.readdir(folder);

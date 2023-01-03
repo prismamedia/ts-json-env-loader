@@ -88,7 +88,7 @@ describe('env loader', () => {
     expect(process.env['LEVEL_2_CONFIG_2']).toEqual('bb');
   });
 
-  it('should fail in sync strict mode', async () => {
+  it('should fail in async strict mode', async () => {
     return expect(
       loadEnv({
         folder: fixtureFolder,
