@@ -31,6 +31,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@rollup/plugin-commonjs", "virtual:a553773be1c8a1fe2d16681644e7888b182156888a3e002d67109cff6b13a96dddd22af75712acbe23727c91bc9e643c63eb179138aa93f355c11293146ef8d7#npm:17.1.0"],\
             ["@rollup/plugin-node-resolve", "virtual:a553773be1c8a1fe2d16681644e7888b182156888a3e002d67109cff6b13a96dddd22af75712acbe23727c91bc9e643c63eb179138aa93f355c11293146ef8d7#npm:11.2.1"],\
             ["@types/jest", "npm:29.2.4"],\
+            ["@types/node", "npm:18.11.18"],\
             ["husky", "npm:4.3.8"],\
             ["jest", "virtual:a553773be1c8a1fe2d16681644e7888b182156888a3e002d67109cff6b13a96dddd22af75712acbe23727c91bc9e643c63eb179138aa93f355c11293146ef8d7#npm:29.3.1"],\
             ["lint-staged", "npm:10.5.4"],\
@@ -1211,6 +1212,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@rollup/plugin-commonjs", "virtual:a553773be1c8a1fe2d16681644e7888b182156888a3e002d67109cff6b13a96dddd22af75712acbe23727c91bc9e643c63eb179138aa93f355c11293146ef8d7#npm:17.1.0"],\
             ["@rollup/plugin-node-resolve", "virtual:a553773be1c8a1fe2d16681644e7888b182156888a3e002d67109cff6b13a96dddd22af75712acbe23727c91bc9e643c63eb179138aa93f355c11293146ef8d7#npm:11.2.1"],\
             ["@types/jest", "npm:29.2.4"],\
+            ["@types/node", "npm:18.11.18"],\
             ["husky", "npm:4.3.8"],\
             ["jest", "virtual:a553773be1c8a1fe2d16681644e7888b182156888a3e002d67109cff6b13a96dddd22af75712acbe23727c91bc9e643c63eb179138aa93f355c11293146ef8d7#npm:29.3.1"],\
             ["lint-staged", "npm:10.5.4"],\

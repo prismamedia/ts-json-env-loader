@@ -35,7 +35,7 @@ export function loadEnvSync(config: Config) {
       let json = {};
 
       try {
-        const parsedFile = JSON.parse(fs.readFileSync(fullFilePath));
+        const parsedFile = JSON.parse(fs.readFileSync(fullFilePath).toString());
 
         if (parsedFile && typeof parsedFile === 'object') {
           json = parsedFile;
@@ -73,7 +73,7 @@ export async function loadEnv(config: Config) {
 
         try {
           const parsedFile = JSON.parse(
-            await fs.promises.readFile(fullFilePath),
+            await fs.promises.readFile(fullFilePath).toString(),
           );
 
           if (parsedFile && typeof parsedFile === 'object') {
@@ -93,14 +93,24 @@ export async function loadEnv(config: Config) {
 }
 
 function parseConfig(config: Config): ParsedConfig {
+  const folder = config.folder || process.env['JSONENVLOADER_CONFIG_FOLDER'];
+
+  if (!folder) {
+    throw new Error(`folder path is required`);
+  }
+
   return {
-    folder: config.folder || process.env['JSONENVLOADER_CONFIG_FOLDER'],
+    folder,
     include:
-      config.include || process.env['JSONENVLOADER_CONFIG_INCLUDE'] || null,
+      config.include ||
+      new RegExp(process.env['JSONENVLOADER_CONFIG_INCLUDE'] as string) ||
+      null,
     exclude:
-      config.exclude || process.env['JSONENVLOADER_CONFIG_EXCLUDE'] || null,
+      config.exclude ||
+      new RegExp(process.env['JSONENVLOADER_CONFIG_EXCLUDE'] as string) ||
+      null,
     strict:
-      config.strict || process.env['JSONENVLOADER_CONFIG_STRICT'] || false,
+      config.strict || Boolean(process.env['JSONENVLOADER_CONFIG_STRICT']),
   };
 }
 
@@ -111,7 +121,7 @@ export function objectToEnv(parsed: any, prefix: string = '') {
       objectToEnv(value, `${prefixedKey}_`);
     } else {
       if (!process.env.hasOwnProperty(prefixedKey)) {
-        process.env[prefixedKey] = value;
+        process.env[prefixedKey] = value as string;
       } else {
         throw new Error(`"${key}" is already defined in process.env`);
       }
