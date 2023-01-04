@@ -63,17 +63,38 @@ describe('env loader', () => {
     expect(process.env['CONFIG2_LEVEL_2_CONFIG_2']).toEqual('bb');
   });
 
-  it('fails on duplicate entries', () => {
+  it('fails on duplicate entries on strict mode', () => {
+    objectToEnv(
+      {
+        ENTRY1: 'a',
+        ENTRY2: 'b',
+      },
+      '',
+      true,
+    );
+
+    expect(() =>
+      objectToEnv(
+        {
+          ENTRY1: 'aa',
+        },
+        '',
+        true,
+      ),
+    ).toThrow(`"ENTRY1" is already defined in process.env`);
+  });
+
+  it('ignores duplicate entries on non strict mode', () => {
     objectToEnv({
       ENTRY1: 'a',
       ENTRY2: 'b',
     });
 
-    expect(() =>
-      objectToEnv({
-        ENTRY1: 'aa',
-      }),
-    ).toThrow(`"ENTRY1" is already defined in process.env`);
+    objectToEnv({
+      ENTRY1: 'aa',
+    });
+
+    expect(process.env['ENTRY1']).toEqual('a');
   });
 
   it('should load in async non stric mode', async () => {

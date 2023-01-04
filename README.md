@@ -53,6 +53,7 @@ await loadEnv({ folder: "/path/to/json/folder"})
 ```
 
 By default, non json file are ignored, you can raise an exception in those cases using the `strict` option
+By default, duplicate entries are ignored, you can raise an exception in those cases using the `strict` option
 
 File can be filtered by name using a regex with the `exclude` or `include` options
 

@@ -47,7 +47,7 @@ export function loadEnvSync(config: Config) {
         }
       }
 
-      objectToEnv(json, `${path.parse(fileBaseName).name}_`);
+      objectToEnv(json, `${path.parse(fileBaseName).name}_`, strict);
     }
   });
 }
@@ -82,7 +82,7 @@ export async function loadEnv(config: Config) {
             throw new Error(`file ${fullFilePath} does not contain valid json`);
           }
         }
-        objectToEnv(json, `${path.parse(fileBaseName).name}_`);
+        objectToEnv(json, `${path.parse(fileBaseName).name}_`, strict);
       }
     }),
   );
@@ -112,7 +112,11 @@ function parseConfig(config: Config): ParsedConfig {
   };
 }
 
-export function objectToEnv(parsed: any, prefix: string = '') {
+export function objectToEnv(
+  parsed: any,
+  prefix: string = '',
+  strict: boolean = false,
+) {
   Object.entries(parsed).forEach(([key, value]) => {
     const prefixedKey = `${prefix}${key}`.toUpperCase();
     if (typeof value === 'object') {
@@ -120,7 +124,7 @@ export function objectToEnv(parsed: any, prefix: string = '') {
     } else {
       if (!process.env.hasOwnProperty(prefixedKey)) {
         process.env[prefixedKey] = value as string;
-      } else {
+      } else if (strict) {
         throw new Error(`"${key}" is already defined in process.env`);
       }
     }
