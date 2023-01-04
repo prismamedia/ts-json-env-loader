@@ -78,5 +78,5 @@ $ JSONENVLOADER_CONFIG_<OPTION>=value node -r @prismamedia/ts-json-env-loader/lo
 ```
 
 ```bash
-$ JSONENVLOADER_CONFIG_FOLDER="/path/to/folder" node -r dotenv/config your_script.js dotenv_config_path=/custom/path/to/.env
+$ JSONENVLOADER_CONFIG_FOLDER="/path/to/folder" node -r @prismamedia/ts-json-env-loader/loadEnvSync your_script.js
 ```
