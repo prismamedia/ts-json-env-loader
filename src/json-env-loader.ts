@@ -126,8 +126,3 @@ export function objectToEnv(parsed: any, prefix: string = '') {
     }
   });
 }
-
-export default {
-  loadEnv,
-  loadEnvSync,
-};
