@@ -22,11 +22,15 @@ import { loadEnvSync } from '@prismamedia/ts-json-env-loader'
 loadEnvSync({ folder: "/path/to/json/folder"})
 import express from 'express'
 ```
+Keys are uppercased
+Keys are prefixed by the fileName
+Keys from multi level json are prefixed the parent key.
 
-key from multi level json are prefixed bu the parent key.
+for file test.json 
+
 ```json
 {
-  "CONFIG_1": "a",
+  "config_1": "a",
   "LEVEL_2": {
     "CONFIG_1": "aa",
     "CONFIG_2": "bb"
@@ -37,9 +41,9 @@ key from multi level json are prefixed bu the parent key.
 Will load as
 
 ```
-CONFIG_1="a"
-LEVEL_2_CONFIG_1="aa"
-LEVEL_2_CONFIG_2="bb"
+TEST_CONFIG_1="a"
+TEST_LEVEL_2_CONFIG_1="aa"
+TEST_LEVEL_2_CONFIG_2="bb"
 ```
 
 Loading can be asynchronous using `loadEnvSync`

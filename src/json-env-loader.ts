@@ -47,7 +47,7 @@ export function loadEnvSync(config: Config) {
         }
       }
 
-      objectToEnv(json);
+      objectToEnv(json, `${path.parse(fileBaseName).name}_`);
     }
   });
 }
@@ -82,7 +82,7 @@ export async function loadEnv(config: Config) {
             throw new Error(`file ${fullFilePath} does not contain valid json`);
           }
         }
-        objectToEnv(json);
+        objectToEnv(json, `${path.parse(fileBaseName).name}_`);
       }
     }),
   );
@@ -114,7 +114,7 @@ function parseConfig(config: Config): ParsedConfig {
 
 export function objectToEnv(parsed: any, prefix: string = '') {
   Object.entries(parsed).forEach(([key, value]) => {
-    const prefixedKey = `${prefix}${key}`;
+    const prefixedKey = `${prefix}${key}`.toUpperCase();
     if (typeof value === 'object') {
       objectToEnv(value, `${prefixedKey}_`);
     } else {

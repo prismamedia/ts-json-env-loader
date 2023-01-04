@@ -21,11 +21,11 @@ describe('env loader', () => {
       folder: fixtureFolder,
     });
 
-    expect(process.env['CONFIG_1']).toEqual('a');
-    expect(process.env['CONFIG_2']).toEqual('b');
-    expect(process.env['CONFIG_3']).toEqual('c');
-    expect(process.env['LEVEL_2_CONFIG_1']).toEqual('aa');
-    expect(process.env['LEVEL_2_CONFIG_2']).toEqual('bb');
+    expect(process.env['CONFIG1_CONFIG_1']).toEqual('a');
+    expect(process.env['CONFIG1_CONFIG_2']).toEqual('b');
+    expect(process.env['CONFIG2_CONFIG_3']).toEqual('c');
+    expect(process.env['CONFIG2_LEVEL_2_CONFIG_1']).toEqual('aa');
+    expect(process.env['CONFIG2_LEVEL_2_CONFIG_2']).toEqual('bb');
   });
 
   it('should fail in sync strict mode', () => {
@@ -43,11 +43,11 @@ describe('env loader', () => {
       include: new RegExp('config1'),
     });
 
-    expect(process.env['CONFIG_1']).toEqual('a');
-    expect(process.env['CONFIG_2']).toEqual('b');
-    expect(process.env['CONFIG_3']).toBeUndefined;
-    expect(process.env['LEVEL_2_CONFIG_1']).toBeUndefined;
-    expect(process.env['LEVEL_2_CONFIG_2']).toBeUndefined;
+    expect(process.env['CONFIG1_CONFIG_1']).toEqual('a');
+    expect(process.env['CONFIG1_CONFIG_2']).toEqual('b');
+    expect(process.env['CONFIG2_CONFIG_3']).toBeUndefined;
+    expect(process.env['CONFIG2_LEVEL_2_CONFIG_1']).toBeUndefined;
+    expect(process.env['CONFIG2_LEVEL_2_CONFIG_2']).toBeUndefined;
   });
 
   it('should ignore file using exclude', () => {
@@ -56,11 +56,11 @@ describe('env loader', () => {
       exclude: new RegExp('config1'),
     });
 
-    expect(process.env['CONFIG_1']).toBeUndefined;
-    expect(process.env['CONFIG_2']).toBeUndefined;
-    expect(process.env['CONFIG_3']).toEqual('c');
-    expect(process.env['LEVEL_2_CONFIG_1']).toEqual('aa');
-    expect(process.env['LEVEL_2_CONFIG_2']).toEqual('bb');
+    expect(process.env['CONFIG1_CONFIG_1']).toBeUndefined;
+    expect(process.env['CONFIG1_CONFIG_2']).toBeUndefined;
+    expect(process.env['CONFIG2_CONFIG_3']).toEqual('c');
+    expect(process.env['CONFIG2_LEVEL_2_CONFIG_1']).toEqual('aa');
+    expect(process.env['CONFIG2_LEVEL_2_CONFIG_2']).toEqual('bb');
   });
 
   it('fails on duplicate entries', () => {
@@ -81,11 +81,11 @@ describe('env loader', () => {
       folder: fixtureFolder,
     });
 
-    expect(process.env['CONFIG_1']).toEqual('a');
-    expect(process.env['CONFIG_2']).toEqual('b');
-    expect(process.env['CONFIG_3']).toEqual('c');
-    expect(process.env['LEVEL_2_CONFIG_1']).toEqual('aa');
-    expect(process.env['LEVEL_2_CONFIG_2']).toEqual('bb');
+    expect(process.env['CONFIG1_CONFIG_1']).toEqual('a');
+    expect(process.env['CONFIG1_CONFIG_2']).toEqual('b');
+    expect(process.env['CONFIG2_CONFIG_3']).toEqual('c');
+    expect(process.env['CONFIG2_LEVEL_2_CONFIG_1']).toEqual('aa');
+    expect(process.env['CONFIG2_LEVEL_2_CONFIG_2']).toEqual('bb');
   });
 
   it('should fail in async strict mode', async () => {
