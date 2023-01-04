@@ -61,22 +61,3 @@ loadEnvSync({
   exclude: /^[_A-Za-z][_0-9A-Za-z]*$/,
 })
 ```
-
-
-### Preload
-
-You can use the `--require` (`-r`) [command line option](https://nodejs.org/api/cli.html#-r---require-module) to preload json-env-loader. By doing this, you do not need to require and load dotenv in your application code.
-
-```bash
-$ node -r @prismamedia/ts-json-env-loader/loadEnvSync your_script.js
-```
-
-You can use environment variables to set configuration options. Configuration from code will precede these.
-
-```bash
-$ JSONENVLOADER_CONFIG_<OPTION>=value node -r @prismamedia/ts-json-env-loader/loadEnvSync your_script.js
-```
-
-```bash
-$ JSONENVLOADER_CONFIG_FOLDER="/path/to/folder" node -r @prismamedia/ts-json-env-loader/loadEnvSync your_script.js
-```
