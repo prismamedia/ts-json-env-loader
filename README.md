@@ -46,7 +46,7 @@ TEST_LEVEL_2_CONFIG_1="aa"
 TEST_LEVEL_2_CONFIG_2="bb"
 ```
 
-Loading can be asynchronous using `loadEnvSync`
+Loading can be asynchronous using `loadEnv`
 ```javascript
 import { loadEnv } from '@prismamedia/ts-json-env-loader'
 await loadEnv({ folder: "/path/to/json/folder"})
@@ -55,14 +55,18 @@ await loadEnv({ folder: "/path/to/json/folder"})
 By default, non json file are ignored, you can raise an exception in those cases using the `strict` option
 By default, duplicate entries are ignored, you can raise an exception in those cases using the `strict` option
 
-File can be filtered by name using a regex with the `exclude` or `include` options
+Files can be filtered by name using a regex with the `excludeFolder` or `includeFolder` options
+Entries can be filtered by (unprefixed) name using a regex with the `excludeEntry` or `includeEntry` options
 
 ```javascript
 import { loadEnvSync } from '@prismamedia/ts-json-env-loader'
 loadEnvSync({ 
   folder: "/path/to/json/folder",
   strict: true,
-  include: /^[_A-Za-z][_0-9A-Za-z]*$/,
-  exclude: /^[_A-Za-z][_0-9A-Za-z]*$/,
+  includeFolder: /^[_A-Za-z][_0-9A-Za-z]*$/,
+  excludeFolder: /^[_A-Za-z][_0-9A-Za-z]*$/,
+  includeEntry: /^[_A-Za-z][_0-9A-Za-z]*$/,
+  excludeEntry: /^[_A-Za-z][_0-9A-Za-z]*$/,
+  onDuplicateEntry: 'overwrite' | 'ignore' | 'throw'
 })
 ```

@@ -37,10 +37,10 @@ describe('env loader', () => {
     ).toThrow(`file ${fixtureFolder}/config3.env does not contain valid json`);
   });
 
-  it('should match file using include', () => {
+  it('should match file using includeFolder', () => {
     loadEnvSync({
       folder: fixtureFolder,
-      include: new RegExp('config1'),
+      includeFolder: new RegExp('config1'),
     });
 
     expect(process.env['CONFIG1_CONFIG_1']).toEqual('a');
@@ -50,10 +50,10 @@ describe('env loader', () => {
     expect(process.env['CONFIG2_LEVEL_2_CONFIG_2']).toBeUndefined;
   });
 
-  it('should ignore file using exclude', () => {
+  it('should ignore file using excludeFolder', () => {
     loadEnvSync({
       folder: fixtureFolder,
-      exclude: new RegExp('config1'),
+      excludeFolder: new RegExp('config1'),
     });
 
     expect(process.env['CONFIG1_CONFIG_1']).toBeUndefined;
@@ -63,14 +63,19 @@ describe('env loader', () => {
     expect(process.env['CONFIG2_LEVEL_2_CONFIG_2']).toEqual('bb');
   });
 
-  it('fails on duplicate entries on strict mode', () => {
+  it('fails on duplicate entries on throw mode', () => {
     objectToEnv(
       {
         ENTRY1: 'a',
         ENTRY2: 'b',
       },
       '',
-      true,
+      {
+        strict: true,
+        onDuplicateEntry: 'throw',
+        excludeEntry: null,
+        includeEntry: null,
+      },
     );
 
     expect(() =>
@@ -79,21 +84,120 @@ describe('env loader', () => {
           ENTRY1: 'aa',
         },
         '',
-        true,
+        {
+          strict: true,
+          onDuplicateEntry: 'throw',
+          excludeEntry: null,
+          includeEntry: null,
+        },
       ),
     ).toThrow(`"ENTRY1" is already defined in process.env`);
   });
 
-  it('ignores duplicate entries on non strict mode', () => {
-    objectToEnv({
-      ENTRY1: 'a',
-      ENTRY2: 'b',
-    });
+  it('ignores duplicate entries on ignore mode', () => {
+    objectToEnv(
+      {
+        ENTRY1: 'a',
+        ENTRY2: 'b',
+      },
+      '',
+      {
+        strict: true,
+        onDuplicateEntry: 'throw',
+        excludeEntry: null,
+        includeEntry: null,
+      },
+    );
 
-    objectToEnv({
-      ENTRY1: 'aa',
-    });
+    objectToEnv(
+      {
+        ENTRY1: 'aa',
+      },
+      '',
+      {
+        strict: true,
+        onDuplicateEntry: 'ignore',
+        excludeEntry: null,
+        includeEntry: null,
+      },
+    );
 
+    expect(process.env['ENTRY1']).toEqual('a');
+  });
+
+  it('replaces duplicate entries on overwrite mode', () => {
+    objectToEnv(
+      {
+        ENTRY1: 'a',
+        ENTRY2: 'b',
+      },
+      '',
+      {
+        strict: true,
+        onDuplicateEntry: 'throw',
+        excludeEntry: null,
+        includeEntry: null,
+      },
+    );
+
+    objectToEnv(
+      {
+        ENTRY1: 'aa',
+      },
+      '',
+      {
+        strict: true,
+        onDuplicateEntry: 'overwrite',
+        excludeEntry: null,
+        includeEntry: null,
+      },
+    );
+
+    expect(process.env['ENTRY1']).toEqual('aa');
+  });
+
+  it('should match entries using includeEntry', () => {
+    objectToEnv(
+      {
+        ENTRY1: 'a',
+        ENTRY2: 'b',
+        ENTRY3: {
+          ENTRY2: 'b',
+        },
+      },
+      '',
+      {
+        strict: true,
+        onDuplicateEntry: 'throw',
+        includeEntry: new RegExp('ENTRY2'),
+        excludeEntry: null,
+      },
+    );
+    -expect(process.env['ENTRY2']).toEqual('b');
+    expect(process.env['ENTRY3_ENTRY2']).toEqual('b');
+    expect(process.env['ENTRY1']).toEqual(undefined);
+  });
+
+  it('should match entries using excludeEntry', () => {
+    objectToEnv(
+      {
+        ENTRY1: 'a',
+        ENTRY2: 'b',
+        ENTRY3: {
+          ENTRY2: 'b',
+        },
+      },
+      '',
+      {
+        strict: true,
+        onDuplicateEntry: 'throw',
+        includeEntry: null,
+        excludeEntry: new RegExp('ENTRY2'),
+      },
+    );
+
+    expect(process.env['ENTRY2']).toEqual(undefined);
+    expect(process.env['ENTRY3_ENTRY2']).toEqual(undefined);
     expect(process.env['ENTRY1']).toEqual('a');
   });
 
